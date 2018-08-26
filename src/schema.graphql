@@ -1,0 +1,24 @@
+type Query {
+  user: User!
+  post(id: String!): Post!
+  search(query: String!): [Post!]!
+}
+
+type User {
+  id: String!
+  username: String!
+  fullName: String
+  firstName: String
+  lastName: String
+}
+
+type Post {
+  id: String!
+  name: String!
+  comment: Comment
+}
+
+type Comment {
+  content: String!
+}
+
