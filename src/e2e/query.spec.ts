@@ -2,8 +2,42 @@ import { GraphQLClient, request } from "graphql-request";
 import gql from "graphql-tag";
 import config from "../config";
 
-test("get user", async () => {
-  const token = 'generated Token';
+test("simple query get post", async () => {
+  const client = new GraphQLClient(config.url);
+
+  const query = gql`
+    {
+      post(id: "uuid") {
+        id
+        name
+      }
+    }
+  `;
+  const res: any = await client.request(query);
+  expect(res.post.name).toEqual("My first article");
+});
+
+test("simple query get post with comment (sub-resolver)", async () => {
+  const client = new GraphQLClient(config.url);
+
+  const query = gql`
+    {
+      post(id: "postId") {
+        name
+        comment {
+          content
+        }
+      }
+    }
+  `;
+  const res: any = await client.request(query);
+  expect(res.post.comment.content).toEqual(
+    "This is a comment of the post with id=postId"
+  );
+});
+
+test("simple query with auth header: get user", async () => {
+  const token = "generated Token";
 
   const client = new GraphQLClient(config.url, {
     headers: {
@@ -25,7 +59,7 @@ test("get user", async () => {
 });
 
 test("do a simple batch query", async () => {
-  const token = 'generated token';
+  const token = "generated token";
 
   const client = new GraphQLClient(config.url, {
     headers: {
