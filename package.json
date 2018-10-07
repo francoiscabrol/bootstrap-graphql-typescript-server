@@ -10,7 +10,7 @@
     "test": "NODE_ENV=dev jest",
     "format": "prettier --write 'src/*.{ts,json,graphql}'",
     "precommit": "lint-staged",
-    "prepush": "yarn ts-check",
+    "prepush": "npm run ts-check",
     "ts-check": "tsc -p . --noEmit",
     "codegen": "apollo-codegen introspect-schema ./src/schema.graphql --output ./schema.json && CODEGEN_RESOLVERS=false gql-gen -f schema.json -t ts --out src/schema.ts"
   },
